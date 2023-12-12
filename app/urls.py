@@ -5,8 +5,9 @@ from app import views
 router = DefaultRouter()
 router.register('users', views.UserViewSet)
 router.register('categories', views.CategoryViewSet)
+router.register('lessons', views.LessonViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
