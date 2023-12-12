@@ -10,7 +10,7 @@ class ItemBase(models.Model):
     class Meta:
         abstract = True
     image = models.ImageField(upload_to='courses/%Y/%m', default=None)
-    subject = models.CharField(max_length=255, name=False, default='SOME STRING')
+    subject = models.CharField(max_length=255, null=False)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
@@ -19,7 +19,7 @@ class ItemBase(models.Model):
         return self.subject
 
 
-class Category(ItemBase):
+class Category(models.Model):
     name = models.CharField(max_length=100, name=False, unique=True)
 
     def __str__(self):
