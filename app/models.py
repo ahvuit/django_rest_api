@@ -2,6 +2,22 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+class BaseResponse:
+    def __init__(self, message="", data=None, code=1000):
+        self.message = message
+        self.data = data
+        self.code = code
+
+    def to_json(self):
+        return {
+            'message': {
+                'message': self.message,
+                'code': self.code
+            },
+            'data': self.data,
+        }
+
+
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='uploads/%Y/%m')
 
