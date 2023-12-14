@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+{% for x in fruits %}
+  <h1>{{ x }}</h1>
+{% endfor %}
+
+<h1>Hello {{ firstname }}, how are you?</h1>
+
+{% with firstname="Tobias" %}
+<h1>Hello {{ firstname }}, how are you?</h1>
+{% endwith %}
+
+
+<ul>
+  {% for x in users %}
+    <li>{{ x.username }}</li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>

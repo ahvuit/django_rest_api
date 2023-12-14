@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="split-container">
+        <div class="left-pane">
+            <div class="imgcontainer">
+                <img src="{% static 'img/icon.svg' %}" alt="">
+            </div>
+            <div class="text-login">Login into your account</div>
+            <form class="form-login" action="#" method="post">
+                <label for="uname"><b>Username</b></label>
+                <div class="input-group">
+                    <input class="input-field" type="text" placeholder="Enter Username" name="uname" required>
+                    <div class="wrapper-icon">
+                        <img src="{% static 'img/ic_email.svg' %}" alt="">
+                    </div>
+                </div>
+
+                <label for="psw"><b>Password</b></label>
+                <div class="input-group">
+                    <input class="input-field" type="password" placeholder="Enter Password" name="psw" required>
+                    <div class="wrapper-icon">
+                        <img src="{% static 'img/ic_pass.svg' %}" alt="">
+                    </div>
+                </div>
+
+                <div class="forgot-password-link">
+                    <div>Forgot Password?</div>
+                </div>
+                <button class="login" type="submit">Login now</button>
+
+                <div class="line-text">
+                    <div class="line"></div>
+                    <div class="text">OR</div>
+                    <div class="line"></div>
+                </div>
+            </form>
+            <button class="signup" type="">Signup now</button>
+        </div>
+        <div class="right-pane">
+            <img src="{% static 'img/login-pana.svg' %}" alt="">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+}
+
+.split-container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-pane {
+    flex: 1;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+}
+
+.right-pane {
+    flex: 2;
+    background-color: #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login {
+    width: 100%;
+}
+
+.input-field {
+    width: 100%;
+    flex-grow: 1;
+    background: transparent;
+    display: inline-block;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding-left: 10px;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    margin-top: 33px;
+    cursor: pointer;
+}
+
+button.login {
+    background: #FD7401;
+    box-shadow: 0 12px 24px rgba(253, 116, 1, 0.30);
+    border-radius: 8px;
+    color: white;
+    border: none;
+}
+
+button.signup {
+    background: white;
+    box-shadow: 0 8px 12px rgba(253, 116, 1, 0.30);
+    color: #FD7401;
+    border-radius: 8px;
+    border: 1px #FD7401 solid;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.imgcontainer,
+.text-login,
+.forgot-password-link,
+.line-text,
+.line,
+.text {
+    text-align: center;
+}
+
+.text-login {
+    margin: 24px 0 12px 0;
+    color: black;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.forgot-password-link {
+    color: #1e2772;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    right: 0;
+}
+
+
+.line-text {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.line {
+    width: 175px;
+    height: 0;
+    border: 1px #C2C2C2 solid;
+}
+
+.text {
+    margin: 0 10px;
+    color: #C2C2C2;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.input-group{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #F1F3F6;
+    display: flex;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.input-group:focus-within{
+    border: 1px #FD7401 solid;
+}
+
+.wrapper-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background: #FD7401;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper-icon:hover{
+    opacity: 0.8;
+}

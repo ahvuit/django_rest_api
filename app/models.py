@@ -19,7 +19,7 @@ class BaseResponse:
 
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='uploads/%Y/%m')
+    avatar = models.ImageField(upload_to='uploads/%Y/%m', null=True)
 
 
 class ItemBase(models.Model):
