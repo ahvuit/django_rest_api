@@ -1,9 +1,8 @@
-from django.contrib.auth import authenticate, login
-from oauth2_provider.oauth2_validators import AccessToken
-from rest_framework import viewsets, permissions, status
+from django.contrib.auth import authenticate
+from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from app.serializer import UserSerializer, CategorySerializer, LessonSerializer, CourseSerializer
 from app.models import User, Category, Lesson, Course, BaseResponse
@@ -11,9 +10,10 @@ from rest_framework import generics
 from rest_framework import permissions
 
 
-class RegisterViewSet(viewsets.ViewSet, generics.CreateAPIView):
+class RegisterViewSet(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -23,17 +23,43 @@ class RegisterViewSet(viewsets.ViewSet, generics.CreateAPIView):
             BaseResponse(message="User created successfully", data=serializer.data, code=201).to_json(),
             status=status.HTTP_201_CREATED)
 
-    def get_permissions(self):
-        if self.action == 'create':
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated(), permissions.IsAdminUser()]
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.token),
+    }
+
+
+class LoginViewSet(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            serializer = UserSerializer(request.data)
+            serializer.is_valid(raise_exception=True)
+            username = request.data.get('username')
+            password = request.data.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                token = get_tokens_for_user(user)
+
+                return Response({'data': token, 'message': 'Login successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryDetailView(generics.RetrieveAPIView):
     lookup_field = 'id'
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -43,7 +69,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'list':
             return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated(), permissions.IsAdminUser()]
+        return [permissions.IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
         try:
