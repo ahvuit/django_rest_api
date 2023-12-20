@@ -4,7 +4,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from app.serializer import UserSerializer, CategorySerializer, LessonSerializer, CourseSerializer
+from app.serializer import UserSerializer, CategorySerializer, LessonSerializer, CourseSerializer, LoginSerializer
 from app.models import User, Category, Lesson, Course, BaseResponse
 from rest_framework import generics
 from rest_framework import permissions
@@ -29,31 +29,18 @@ def get_tokens_for_user(user):
 
     return {
         'refresh': str(refresh),
-        'access': str(refresh.token),
+        'access': str(refresh.access_token),
     }
 
 
 class LoginViewSet(generics.CreateAPIView):
-    queryset = User.objects.all()
+    serializer_class = LoginSerializer
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        try:
-            serializer = UserSerializer(request.data)
-            serializer.is_valid(raise_exception=True)
-            username = request.data.get('username')
-            password = request.data.get('password')
-
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                token = get_tokens_for_user(user)
-
-                return Response({'data': token, 'message': 'Login successfully'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CategoryDetailView(generics.RetrieveAPIView):

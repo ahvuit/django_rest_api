@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class BaseResponse:
@@ -20,6 +21,13 @@ class BaseResponse:
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='uploads/%Y/%m', null=True)
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
 
 
 class ItemBase(models.Model):
